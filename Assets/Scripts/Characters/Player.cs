@@ -56,9 +56,9 @@ namespace Characters
 
         [Header("Run")]
         [SerializeField] private float _runMaxSpeed;
-        private float _runAccelerationSpeed;
+        [SerializeField] private float _runAccelerationSpeed;
         private float _runAccelerationAmount;
-        private float _runDeccelerationSpeed;
+        [SerializeField] private float _runDeccelerationSpeed;
         private float _runDeccelerationAmount;
         [SerializeField] private float _accelarationInAir;
         [SerializeField] private float _deccelerationInAir;
@@ -78,7 +78,6 @@ namespace Characters
         private Vector2 _groundCheckSize;
         private Vector2 _groundCheckPoint;
 
-
         #endregion
         #endregion
 
@@ -96,7 +95,7 @@ namespace Characters
             LevelEvents.Instance.LifeIsLost?.AddListener(OnLifeIsLost);
             SetGravityScale(_gravityScale);
             _isFacingRight = true;
-            _groundCheckSize = new(_playerCollider.bounds.size.x, _playerCollider.bounds.size.y);
+            _groundCheckSize = new(_playerCollider.bounds.size.x - 0.05f, _playerCollider.bounds.size.y);
         }
 
         private void OnValidate()
@@ -238,6 +237,7 @@ namespace Characters
                 accelerationRate = (Mathf.Abs(targetSpeed) > 0.01f) ? _runAccelerationAmount * _accelarationInAir : _runDeccelerationAmount * _deccelerationInAir;
             }
 
+            Debug.Log(accelerationRate);
             //Add Bonuds Jump Apex Acceleration
             if(_isJumping || _isJumpFalling)
             {
@@ -246,7 +246,9 @@ namespace Characters
             }
 
             //Conserve Momentum
-            if(_isConservingMomentum && Mathf.Abs(_rigidbody.velocity.x) > Mathf.Abs(targetSpeed) && Mathf.Sign(_rigidbody.velocity.x) == Mathf.Sign(targetSpeed) && Mathf.Abs(targetSpeed) > 0.01f && _lastOnGroundTime < 0)
+            if((Mathf.Abs(_rigidbody.velocity.x) > Mathf.Abs(targetSpeed)) 
+                && (Mathf.Sign(_rigidbody.velocity.x) == Mathf.Sign(targetSpeed)) 
+                && (Mathf.Abs(targetSpeed) > 0.01f) && (_lastOnGroundTime < 0))
             {
                 accelerationRate = 0;
             }
