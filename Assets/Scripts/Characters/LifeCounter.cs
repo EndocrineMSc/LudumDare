@@ -16,7 +16,6 @@ namespace Characters
 
         #endregion
 
-
         #region Functions
 
         private void Awake()
