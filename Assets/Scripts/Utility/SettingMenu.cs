@@ -37,7 +37,7 @@ namespace Utilities
 
             _backButton.onClick.AddListener(OpenMainMenu);
 
-            AudioOptionManager _audioOptions = AudioManager.Instance.GetComponent<AudioOptionManager>();
+            AudioOptionManager _audioOptions = AudioOptionManager.Instance;
 
             _masterVolume.onValueChanged.AddListener(_audioOptions.SetMasterVolume);
             _musicVolume.onValueChanged.AddListener(_audioOptions.SetMusicVolume);

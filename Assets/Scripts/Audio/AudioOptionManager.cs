@@ -12,17 +12,33 @@ namespace Audio
     {
         #region Fields and Properties
 
+        internal static AudioOptionManager Instance;
+
         [SerializeField] private AudioMixer _audioMixer;
 
         #endregion
 
-        #region Public Functions
+        #region Functions
 
         /// <summary>
         /// Actual functions for volume sliders.
         /// The actual volume is in decibel, which is on a logarithmic scale.
         /// </summary>
         /// <param name="volume">Float set by the respective slider on a linear scale (between -80 and 20)</param>
+
+        private void Awake()
+        {
+            if (Instance == null)
+            {
+                Instance = this;
+                DontDestroyOnLoad(this.gameObject);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+        }
+
 
         public void SetMasterVolume(float volume)
         {
