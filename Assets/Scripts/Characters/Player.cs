@@ -34,6 +34,7 @@ namespace Characters
         private Collider2D _playerCollider;
         [SerializeField] private LayerMask _groundLayer;
         private Vector2 _moveInput;
+        private GameObject _playerVisuals;
         
         private bool _isFacingRight;
         private bool _isFacingLeft;
@@ -87,6 +88,7 @@ namespace Characters
             _playerAnimator = GetComponent<Animator>();
             _playerCollider = GetComponentInChildren<Collider2D>();
             _rigidbody = GetComponent<Rigidbody2D>();
+            _playerVisuals = transform.GetChild(1).gameObject;
         }
 
         private void Start()
@@ -132,18 +134,18 @@ namespace Characters
                 CheckDirectionToFace(_moveInput.x > 0);
             }
 
-            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.C) || Input.GetKeyDown(KeyCode.J))
+            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.J))
             {
                 OnJumpInput();
             }
 
-            if (Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.C) || Input.GetKeyUp(KeyCode.J))
+            if (Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.J))
             {
                 OnJumpUpInput();
             }
 
             //Collision Checks
-            _groundCheckPoint = new(transform.position.x, transform.position.y - 0.1f);
+            _groundCheckPoint = new(_playerVisuals.transform.position.x, _playerVisuals.transform.position.y - 0.2f);
 
             if(IsGrounded() && !_isJumping)
             {

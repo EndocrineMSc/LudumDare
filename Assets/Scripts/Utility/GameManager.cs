@@ -38,6 +38,7 @@ namespace Utilities
 
         private void Start()
         {
+            Physics2D.IgnoreLayerCollision(7, 8);
             SwitchState(GameState.MainMenu);
         }
 
