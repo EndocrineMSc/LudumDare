@@ -22,11 +22,10 @@ namespace Characters
 
         private float _hurtAnimationDuration = 1f;
         private Animator _playerAnimator;
-        private bool _isInHurtAnimation;
+        internal bool IsInHurtAnimation { get; private set; }
 
         [SerializeField] private GameObject _deliverySackPrefab;
         private bool _isHoldingSack = true;
-
 
         #region Movement Fields
 
@@ -86,7 +85,7 @@ namespace Characters
         private void Awake()
         {
             _playerAnimator = GetComponent<Animator>();
-            _playerCollider = GetComponent<Collider2D>();
+            _playerCollider = GetComponentInChildren<Collider2D>();
             _rigidbody = GetComponent<Rigidbody2D>();
         }
 
@@ -122,7 +121,7 @@ namespace Characters
             _lastPressedJumpTime -= Time.deltaTime;
 
             //Inputs
-            if (!_isInHurtAnimation)
+            if (!IsInHurtAnimation)
             {
                 _moveInput.x = Input.GetAxisRaw(X_AXIS);
                 _moveInput.y = Input.GetAxisRaw(Y_AXIS);
@@ -237,7 +236,6 @@ namespace Characters
                 accelerationRate = (Mathf.Abs(targetSpeed) > 0.01f) ? _runAccelerationAmount * _accelarationInAir : _runDeccelerationAmount * _deccelerationInAir;
             }
 
-            Debug.Log(accelerationRate);
             //Add Bonuds Jump Apex Acceleration
             if(_isJumping || _isJumpFalling)
             {
@@ -308,7 +306,7 @@ namespace Characters
 
         public void TakeDamage()
         {
-            if(!_isInHurtAnimation)
+            if(!IsInHurtAnimation)
             {
                 StartCoroutine(HandleDamage());
             }                       
@@ -316,7 +314,7 @@ namespace Characters
 
         private IEnumerator HandleDamage()
         {
-            _isInHurtAnimation = true;
+            IsInHurtAnimation = true;
             _playerAnimator.SetTrigger(HURT_TRIGGER);
             
             if (_isHoldingSack) 
@@ -325,7 +323,7 @@ namespace Characters
             }
 
             yield return new WaitForSeconds(_hurtAnimationDuration);
-            _isInHurtAnimation = false;
+            IsInHurtAnimation = false;
         }
 
         private void OnLifeIsLost()
@@ -335,7 +333,7 @@ namespace Characters
 
         private IEnumerator HandleLostLife()
         {
-            _isInHurtAnimation = true;
+            IsInHurtAnimation = true;
             _playerAnimator.SetTrigger(HURT_TRIGGER);
             yield return new WaitForSeconds(_hurtAnimationDuration);
             LevelEvents.Instance.PlayerIsDestroyed?.Invoke();
