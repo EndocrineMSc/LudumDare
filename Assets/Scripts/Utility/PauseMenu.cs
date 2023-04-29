@@ -24,7 +24,7 @@ namespace Utilities
         {
             _settingsCanvas = GetComponent<Canvas>();
             _settingsCanvas.enabled = false;
-            AudioOptionManager _audioOptionManager = AudioManager.Instance.GetComponent<AudioOptionManager>();
+            AudioOptionManager _audioOptionManager = AudioOptionManager.Instance;
             _masterSlider.onValueChanged.AddListener(_audioOptionManager.SetMasterVolume);
             _musicSlilder.onValueChanged.AddListener(_audioOptionManager.SetMusicVolume);
             _volumeSlider.onValueChanged.AddListener(_audioOptionManager.SetEffectsVolume);

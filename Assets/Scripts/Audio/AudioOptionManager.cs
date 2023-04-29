@@ -12,7 +12,7 @@ namespace Audio
     {
         #region Fields and Properties
 
-        internal static AudioOptionManager Instance;
+        internal static AudioOptionManager Instance { get; private set; }
 
         [SerializeField] private AudioMixer _audioMixer;
 
