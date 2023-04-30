@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using Utilities;
 
 namespace Characters
 {
@@ -10,7 +11,7 @@ namespace Characters
     {
         #region Fields and Properties
 
-        internal int LifeCount { get; private set; } = 3;
+        private int _lifeCount;
 
         private TextMeshProUGUI _lifeCounter;
 
@@ -21,27 +22,24 @@ namespace Characters
         private void Awake()
         {
             _lifeCounter = GetComponent<TextMeshProUGUI>();
-            _lifeCounter.text = LifeCount.ToString();
         }
 
-        public void DecreaseLifeCount()
+        private void Start()
         {
-            LifeCount--;
-            StartCoroutine(ChangeLifeCount());
+            _lifeCount = GameManager.Instance.Lives;
+            _lifeCounter.text = _lifeCount.ToString();
         }
 
-        internal void IncreaseLifeCount()
+        internal IEnumerator ChangeLifeCount()
         {
-            LifeCount++;
-            StartCoroutine(ChangeLifeCount());
-        }
-
-        private IEnumerator ChangeLifeCount()
-        {
+            _lifeCounter.DOFade(1, 0.25f).SetEase(Ease.InOutBounce);
+            GameManager.Instance.Lives--;
+            _lifeCount = GameManager.Instance.Lives;
+            yield return new WaitForSeconds(0.25f);
             _lifeCounter.DOFade(0, 0.25f).SetEase(Ease.InOutBounce);
             yield return new WaitForSeconds(0.25f);
             _lifeCounter.DOFade(1, 0.25f).SetEase(Ease.InOutBounce);
-            _lifeCounter.text = LifeCount.ToString();
+            _lifeCounter.text = _lifeCount.ToString();
         }
 
         #endregion

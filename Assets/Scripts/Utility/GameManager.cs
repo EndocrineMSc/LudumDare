@@ -19,6 +19,8 @@ namespace Utilities
 
         private readonly string LEVEL_ONE_PARAM = "LevelOne";
 
+        internal int Lives { get; set; } = 3;
+
         #endregion
 
         #region Functions
@@ -38,7 +40,7 @@ namespace Utilities
 
         private void Start()
         {
-            Physics2D.IgnoreLayerCollision(7, 8);
+            Physics2D.IgnoreLayerCollision(7, 8, true);
             SwitchState(GameState.MainMenu);
         }
 

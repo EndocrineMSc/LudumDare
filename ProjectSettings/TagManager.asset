@@ -9,6 +9,7 @@ TagManager:
   - CreditsButton
   - GameTitle
   - Ground
+  - PlayerSpawn
   layers:
   - Default
   - TransparentFX

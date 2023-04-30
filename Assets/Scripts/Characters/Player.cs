@@ -370,7 +370,6 @@ namespace Characters
             }
             else if(collision.gameObject.name.Contains("Death"))
             {
-                Debug.Log("Hit Death Box");
                 LevelEvents.Instance.LifeIsLost?.Invoke();
             }
         }
