@@ -24,6 +24,7 @@ namespace Characters
         [SerializeField] private float _maxLowerYDistance;
         [SerializeField] private float _maxXDistance;
         private float _movementMaxCooldown;
+        private bool _isRetrievedByBird;
 
 
         #endregion
@@ -53,7 +54,7 @@ namespace Characters
 
         void Update()
         {
-            if (_countdownIsSet && Countdown > 0)
+            if (_countdownIsSet && Countdown > 0 && !_isRetrievedByBird)
             {
                 _countdownHelper -= Time.deltaTime;
                 Countdown = Mathf.RoundToInt(_countdownHelper);
@@ -123,6 +124,15 @@ namespace Characters
             if (collision.gameObject.TryGetComponent<Shot>(out _))
             {
                 _rigidbody.AddForce(Vector2.down * _shotSpeed, ForceMode2D.Impulse);
+            }
+        }
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (collision.gameObject.TryGetComponent<CarrierBird>(out _))
+            {
+                _rigidbody.velocity = Vector2.zero;
+                _isRetrievedByBird = true;
             }
         }
 
