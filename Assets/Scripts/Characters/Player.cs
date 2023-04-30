@@ -403,8 +403,6 @@ namespace Characters
             _playerAnimator.SetTrigger(DEATH_TRIGGER);
             yield return new WaitForSeconds(_hurtAnimationDuration);
             LevelEvents.Instance.PlayerIsDestroyed?.Invoke();
-            GameObject playerSpawn = GameObject.FindGameObjectWithTag("PlayerSpawn");
-            transform.position = playerSpawn.transform.position;
         }
 
         #endregion
