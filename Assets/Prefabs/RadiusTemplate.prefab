@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _shotPrefab: {fileID: 7290479636754408878, guid: c013e8efbab8591418133b9fe31b37b7, type: 3}
-  _shotSpeed: 15
+  _shotSpeed: 10
 --- !u!1 &6540486954813936677
 GameObject:
   m_ObjectHideFlags: 0
