@@ -16,9 +16,9 @@ namespace Characters
         private readonly string HURT_TRIGGER = "Hurt";
         private readonly string WALK_TRIGGER = "Walk";
         private readonly string IDLE_TRIGGER = "Idle";
-        private readonly string ATTACK_TRIGGER = "Attack";
+        private readonly string DEATH_TRIGGER = "Death";
         private readonly string JUMP_TRIGGER = "Jump";
-        private readonly string GROUND_LAYER = "Ground";
+        private readonly string FALL_TRIGGER = "JumpFall";
         private readonly string X_AXIS = "Horizontal";
         private readonly string Y_AXIS = "Vertical";
 
@@ -26,7 +26,7 @@ namespace Characters
 
         #region Animation
 
-        private float _hurtAnimationDuration = 1f;
+        private float _hurtAnimationDuration = 0.5f;
         private Animator _playerAnimator;
         internal bool IsInHurtAnimation { get; private set; }
 
@@ -50,7 +50,6 @@ namespace Characters
         private GameObject _playerVisuals;
         
         private bool _isFacingRight;
-        private bool _isFacingLeft;
         private bool _isJumping;
         private bool _isJumpFalling;
         private bool _isJumpCut;
@@ -75,7 +74,6 @@ namespace Characters
         private float _runDeccelerationAmount;
         [SerializeField] private float _accelarationInAir;
         [SerializeField] private float _deccelerationInAir;
-        private bool _isConservingMomentum = true;
 
         [Header("Jump")]
         [SerializeField] private float _jumpHeight;
@@ -134,7 +132,6 @@ namespace Characters
 
         private void Update()
         {
-
             //Timers
             _lastOnGroundTime -= Time.deltaTime;
             _lastPressedJumpTime -= Time.deltaTime;
@@ -146,18 +143,14 @@ namespace Characters
                 _moveInput.y = Input.GetAxisRaw(Y_AXIS);
             }
 
-            if (_moveInput.x != 0)
-            {
-                CheckDirectionToFace(_moveInput.x > 0);
-            }
-
             if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.J))
             {
+                _playerAnimator.SetTrigger(JUMP_TRIGGER);
                 OnJumpInput();
             }
 
             if (Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.J))
-            {
+            {   
                 OnJumpUpInput();
             }
 
@@ -167,11 +160,18 @@ namespace Characters
             if(IsGrounded() && !_isJumping)
             {
                 _lastOnGroundTime = _coyoteTime;
+                if (_isFalling)
+                {
+                    _isFalling = false;
+                    _playerAnimator.SetTrigger(IDLE_TRIGGER);
+                }
             }
 
             //Jump Checks
             if(_isJumping && _rigidbody.velocity.y < 0)
             {
+                _playerAnimator.SetTrigger(FALL_TRIGGER);
+                _isFalling = true;
                 _isJumping = false;
                 _isJumpFalling = true;
             }
@@ -222,6 +222,16 @@ namespace Characters
 
         private void FixedUpdate()
         {
+            if (_moveInput.x != 0)
+            {
+                _playerAnimator.SetTrigger(WALK_TRIGGER);
+                CheckDirectionToFace(_moveInput.x > 0);
+            }
+            else
+            {
+                _playerAnimator.SetTrigger(IDLE_TRIGGER);
+            }
+
             Run(1);
         }
 
@@ -368,7 +378,7 @@ namespace Characters
         private IEnumerator HandleDamage()
         {
             IsInHurtAnimation = true;
-            //_playerAnimator.SetTrigger(HURT_TRIGGER);
+            _playerAnimator.SetTrigger(HURT_TRIGGER);
             
             if (IsHoldingBag) 
             {
@@ -391,7 +401,7 @@ namespace Characters
         private IEnumerator HandleLostLife()
         {
             IsInHurtAnimation = true;
-            _playerAnimator.SetTrigger(HURT_TRIGGER);
+            _playerAnimator.SetTrigger(DEATH_TRIGGER);
             yield return new WaitForSeconds(_hurtAnimationDuration);
             LevelEvents.Instance.PlayerIsDestroyed?.Invoke();
             GameObject playerSpawn = GameObject.FindGameObjectWithTag("PlayerSpawn");

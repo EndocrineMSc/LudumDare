@@ -29,7 +29,7 @@ namespace Characters
         {
             _rigidbody = GetComponent<Rigidbody2D>();
             _collider = GetComponent<Collider2D>();
-            _spriteRenderer = GetComponent<SpriteRenderer>();
+            _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
             _rigidbody.freezeRotation = true;
             _colliderGroundFeeler = transform.GetChild(0).GetComponent<Collider2D>();
             _turnFeeler = transform.GetChild(0).GetComponent<EnemyTurnFeeler>();

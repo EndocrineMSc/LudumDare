@@ -21,6 +21,7 @@ namespace Characters
         //Visuals
         private SpriteRenderer _recticleSprite;
         private bool _shotIsOnCooldown;
+        private Animator _animator;
 
         #endregion
 
@@ -31,14 +32,16 @@ namespace Characters
             _aimRecticle = transform.GetChild(0).gameObject;
             _player = transform.parent.gameObject;
             _recticleSprite = _aimRecticle.GetComponent<SpriteRenderer>();
+            _animator = _player.GetComponent<Animator>();
         }
 
         private void Update()
         {
-            //_recticleSprite.enabled = _keepAiming;
+            _recticleSprite.enabled = _keepAiming;
 
             if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.F) || Input.GetKeyUp(KeyCode.LeftAlt))
             {
+                _animator.SetTrigger("Aim");
                 transform.rotation = Quaternion.Euler(0, 0, 0);
                 _keepAiming = true;
             }
@@ -88,6 +91,7 @@ namespace Characters
 
         private void Shoot(Vector2 direction)
         {
+            _animator.SetTrigger("Attack");
             GameObject shot = Instantiate(_shotPrefab, transform.position, Quaternion.identity);
             Rigidbody2D rigidbody = shot.GetComponent<Rigidbody2D>();
             rigidbody.velocity = direction * _shotSpeed;
