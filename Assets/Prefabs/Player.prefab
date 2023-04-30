@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4726b18ef5ff0fc44a6e5635870dff8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _deliverySackPrefab: {fileID: 0}
+  _deliveryBagPrefab: {fileID: 3744723399405259791, guid: 8c4e596eb5c5a8e4d850b21bb671ec58, type: 3}
   _groundLayer:
     serializedVersion: 2
     m_Bits: 64

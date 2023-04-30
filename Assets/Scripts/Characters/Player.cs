@@ -11,6 +11,8 @@ namespace Characters
     {
         #region Fields and Properties
 
+        #region Param Strings
+
         private readonly string HURT_TRIGGER = "Hurt";
         private readonly string WALK_TRIGGER = "Walk";
         private readonly string IDLE_TRIGGER = "Idle";
@@ -20,12 +22,23 @@ namespace Characters
         private readonly string X_AXIS = "Horizontal";
         private readonly string Y_AXIS = "Vertical";
 
+        #endregion
+
+        #region Animation
+
         private float _hurtAnimationDuration = 1f;
         private Animator _playerAnimator;
         internal bool IsInHurtAnimation { get; private set; }
 
-        [SerializeField] private GameObject _deliverySackPrefab;
-        private bool _isHoldingSack = true;
+        #endregion
+
+        #region Delivery Bag Mechanics
+
+        [SerializeField] private GameObject _deliveryBagPrefab;
+        internal bool IsHoldingBag { get; private set; } = true;
+        internal int DeliveryBagTimer { get; private set; } = 20;
+
+        #endregion
 
         #region Movement Fields
 
@@ -79,6 +92,7 @@ namespace Characters
         private Vector2 _groundCheckPoint;
 
         #endregion
+
         #endregion
 
         #region Functions
@@ -116,8 +130,11 @@ namespace Characters
             _rigidbody.gravityScale = gravityScale;
         }
 
+        #region Updates
+
         private void Update()
         {
+
             //Timers
             _lastOnGroundTime -= Time.deltaTime;
             _lastPressedJumpTime -= Time.deltaTime;
@@ -208,6 +225,9 @@ namespace Characters
             Run(1);
         }
 
+        #endregion
+
+        #region Other Movement
 
         private void OnJumpInput()
         {
@@ -306,6 +326,16 @@ namespace Characters
             return _isJumping && _rigidbody.velocity.y > 0;
         }
 
+        private bool IsGrounded()
+        {
+            bool isGrounded = Physics2D.OverlapBox(_groundCheckPoint, _groundCheckSize, 0f, _groundLayer);
+            return isGrounded;
+        }
+
+        #endregion
+
+        #region Player Mechanics
+
         public void TakeDamage()
         {
             if(!IsInHurtAnimation)
@@ -314,14 +344,33 @@ namespace Characters
             }                       
         }
 
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            if(collision.gameObject.TryGetComponent<Enemy>(out _))
+            {
+                TakeDamage();
+            }
+            else if(collision.gameObject.TryGetComponent<DeliveryBag>(out _))
+            {
+                IsHoldingBag = true;
+                LevelEvents.Instance.BagIsRetrieved?.Invoke();
+                Destroy(collision.gameObject);
+                DeliveryBagTimer = DeliveryBagTimer < 10 ? 10 : DeliveryBagTimer;
+            }
+        }
+
         private IEnumerator HandleDamage()
         {
             IsInHurtAnimation = true;
-            _playerAnimator.SetTrigger(HURT_TRIGGER);
+            //_playerAnimator.SetTrigger(HURT_TRIGGER);
             
-            if (_isHoldingSack) 
+            if (IsHoldingBag) 
             {
-                Instantiate(_deliverySackPrefab, transform);
+                IsHoldingBag = false;
+                LevelEvents.Instance.BagIsLost?.Invoke();
+                GameObject bagObject = Instantiate(_deliveryBagPrefab, transform.position, Quaternion.identity);
+                DeliveryBag deliveryBag = bagObject.GetComponent<DeliveryBag>();
+                deliveryBag.SetCountdown(DeliveryBagTimer);
             }
 
             yield return new WaitForSeconds(_hurtAnimationDuration);
@@ -342,11 +391,7 @@ namespace Characters
             Destroy(gameObject);
         }
 
-        private bool IsGrounded()
-        {
-            bool isGrounded = Physics2D.OverlapBox(_groundCheckPoint, _groundCheckSize, 0f, _groundLayer);
-            return isGrounded;
-        }
+        #endregion
 
         private void OnDrawGizmosSelected()
         {

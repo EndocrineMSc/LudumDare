@@ -13,6 +13,8 @@ namespace Utilites
         public UnityEvent GameIsWon;
         public UnityEvent LifeIsLost;
         public UnityEvent PlayerIsDestroyed;
+        public UnityEvent BagIsLost;
+        public UnityEvent BagIsRetrieved;
 
         private void Awake()
         {
