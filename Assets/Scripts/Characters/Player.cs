@@ -358,6 +358,11 @@ namespace Characters
                 Destroy(collision.gameObject);
                 DeliveryBagTimer = DeliveryBagTimer < 10 ? 10 : DeliveryBagTimer;
             }
+            else if(collision.gameObject.name.Contains("Death"))
+            {
+                Debug.Log("Hit Death Box");
+                LevelEvents.Instance.LifeIsLost?.Invoke();
+            }
         }
 
         private IEnumerator HandleDamage()
@@ -389,7 +394,8 @@ namespace Characters
             _playerAnimator.SetTrigger(HURT_TRIGGER);
             yield return new WaitForSeconds(_hurtAnimationDuration);
             LevelEvents.Instance.PlayerIsDestroyed?.Invoke();
-            Destroy(gameObject);
+            GameObject playerSpawn = GameObject.FindGameObjectWithTag("PlayerSpawn");
+            transform.position = playerSpawn.transform.position;
         }
 
         #endregion
