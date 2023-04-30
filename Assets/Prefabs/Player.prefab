@@ -84,18 +84,18 @@ MonoBehaviour:
   _groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  _maxFallSpeed: 10
-  _fallGravityMultiplier: 2
-  _fastFallGravityMultiplier: 3
+  _maxFallSpeed: 30
+  _fallGravityMultiplier: 5
+  _fastFallGravityMultiplier: 8
   _maxFastFallSpeed: 15
   _runMaxSpeed: 5
   _runAccelerationSpeed: 5
-  _runDeccelerationSpeed: 5
+  _runDeccelerationSpeed: 1
   _accelarationInAir: 1
   _deccelerationInAir: 1
-  _jumpHeight: 2
+  _jumpHeight: 20
   _jumpTimeToApex: 1
-  _jumpCutGravityMultiplier: 3
+  _jumpCutGravityMultiplier: 5
   _jumpHangGravityMultiplier: 0.4
   _jumpHangTimeThreshold: 0.1
   _jumpHangAccelerationMultiplier: 1
@@ -259,18 +259,6 @@ PrefabInstance:
     - target: {fileID: 6741562811074578112, guid: 822e88caa6a58d647ab274cd50079552, type: 3}
       propertyPath: m_RootOrder
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6741562811074578112, guid: 822e88caa6a58d647ab274cd50079552, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 6741562811074578112, guid: 822e88caa6a58d647ab274cd50079552, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 6741562811074578112, guid: 822e88caa6a58d647ab274cd50079552, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6741562811074578112, guid: 822e88caa6a58d647ab274cd50079552, type: 3}
       propertyPath: m_LocalPosition.x
