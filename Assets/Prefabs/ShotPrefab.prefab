@@ -141,3 +141,4 @@ MonoBehaviour:
   _deathJumpDistance: 5
   _deathJumpForce: 50
   _deathJumpGravity: 5
+  _sporeEmitter: {fileID: 5183070844576155976, guid: 7fb4ad32b39a84a4595479b8b74e4766, type: 3}

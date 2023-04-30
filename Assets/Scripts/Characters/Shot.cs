@@ -17,6 +17,7 @@ namespace Characters
         [SerializeField] private float _deathJumpDistance;
         [SerializeField] private float _deathJumpForce;
         [SerializeField] private float _deathJumpGravity;
+        [SerializeField] private GameObject _sporeEmitter;
 
         #endregion
 
@@ -32,7 +33,10 @@ namespace Characters
         {
             if (collision.gameObject.TryGetComponent<Enemy>(out Enemy enemy))
             {
+                Instantiate(_sporeEmitter, transform.position, Quaternion.identity);
                 enemy.TakeDamage();
+                _collider.enabled = false;
+                _rigidbody.velocity = Vector3.zero;
                 DeathTween();
                 StartCoroutine(KillObject());
             }
@@ -67,18 +71,5 @@ namespace Characters
         }
 
         #endregion
-
-
-        // Start is called before the first frame update
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
     }
 }
