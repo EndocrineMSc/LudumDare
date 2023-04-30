@@ -350,10 +350,11 @@ namespace Characters
             {
                 TakeDamage();
             }
-            else if(collision.gameObject.TryGetComponent<DeliveryBag>(out _))
+            else if(collision.gameObject.TryGetComponent<DeliveryBag>(out DeliveryBag deliveryBag))
             {
                 IsHoldingBag = true;
                 LevelEvents.Instance.BagIsRetrieved?.Invoke();
+                DeliveryBagTimer = deliveryBag.Countdown;
                 Destroy(collision.gameObject);
                 DeliveryBagTimer = DeliveryBagTimer < 10 ? 10 : DeliveryBagTimer;
             }
