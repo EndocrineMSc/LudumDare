@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 3827298586373555724}
   - component: {fileID: 6322423110433361739}
   - component: {fileID: 2199313127071638680}
-  m_Layer: 0
+  - component: {fileID: 8670302253113245281}
+  m_Layer: 6
   m_Name: Platform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -80,9 +81,10 @@ SpriteShapeRenderer:
   m_ShapeTexture: {fileID: 2800000, guid: b0b50d178364a5c46afa34603ceae24f, type: 3}
   m_Sprites:
   - {fileID: 21300000, guid: 72ea96d210da65c4eab56386233ef65d, type: 3}
+  - {fileID: 21300000, guid: 72ea96d210da65c4eab56386233ef65d, type: 3}
   m_LocalAABB:
-    m_Center: {x: 0, y: -1.8600001, z: 0}
-    m_Extent: {x: 6.06, y: 3.1400003, z: 0}
+    m_Center: {x: -2.5, y: -3.3600006, z: 0}
+    m_Extent: {x: 34.56, y: 4.6400003, z: 0}
 --- !u!114 &2199313127071638680
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -98,7 +100,7 @@ MonoBehaviour:
   m_Spline:
     m_IsOpenEnded: 0
     m_ControlPoints:
-    - position: {x: -5, y: -5, z: 0}
+    - position: {x: -36, y: -8, z: 0}
       leftTangent: {x: 0, y: 0, z: 0}
       rightTangent: {x: 0, y: 0, z: 0}
       mode: 0
@@ -108,7 +110,7 @@ MonoBehaviour:
       spriteIndex: 0
       corner: 1
       m_CornerMode: 1
-    - position: {x: -5, y: 0, z: 0}
+    - position: {x: -36, y: 0, z: 0}
       leftTangent: {x: 0, y: 0, z: 0}
       rightTangent: {x: 0, y: 0, z: 0}
       mode: 0
@@ -118,7 +120,7 @@ MonoBehaviour:
       spriteIndex: 0
       corner: 1
       m_CornerMode: 1
-    - position: {x: 5, y: 0, z: 0}
+    - position: {x: 31, y: 0, z: 0}
       leftTangent: {x: 0, y: 0, z: 0}
       rightTangent: {x: 0, y: 0, z: 0}
       mode: 0
@@ -128,7 +130,7 @@ MonoBehaviour:
       spriteIndex: 0
       corner: 1
       m_CornerMode: 1
-    - position: {x: 5, y: -5, z: 0}
+    - position: {x: 31, y: -8, z: 0}
       leftTangent: {x: 0, y: 0, z: 0}
       rightTangent: {x: 0, y: 0, z: 0}
       mode: 0
@@ -154,3 +156,35 @@ MonoBehaviour:
   m_EnableTangents: 0
   m_GeometryCached: 0
   m_UTess2D: 0
+--- !u!60 &8670302253113245281
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4726669417584815451}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: -36, y: -8}
+      - {x: -36, y: 1.28}
+      - {x: 31, y: 1.28}
+      - {x: 31, y: -8}
+      - {x: -32.744297, y: -8}
+      - {x: -35.14637, y: -8}
+      - {x: -36, y: -8}
