@@ -34,6 +34,7 @@ namespace Utilities
             GameManager.Instance.MainMenuOpened?.AddListener(OnOtherMenuOpened);
             GameManager.Instance.SettingsOpened?.AddListener(OnSettingsOpened);
             GameManager.Instance.CreditsOpened?.AddListener(OnOtherMenuOpened);
+            GameManager.Instance.HowToPlayOpened?.AddListener(OnOtherMenuOpened);
 
             _backButton.onClick.AddListener(OpenMainMenu);
 
@@ -42,6 +43,14 @@ namespace Utilities
             _masterVolume.onValueChanged.AddListener(_audioOptions.SetMasterVolume);
             _musicVolume.onValueChanged.AddListener(_audioOptions.SetMusicVolume);
             _sfxVolume.onValueChanged.AddListener(_audioOptions.SetEffectsVolume);
+        }
+
+        private void OnDisable()
+        {
+            GameManager.Instance.HowToPlayOpened?.RemoveListener(OnOtherMenuOpened);
+            GameManager.Instance.MainMenuOpened?.RemoveListener(OnOtherMenuOpened);
+            GameManager.Instance.SettingsOpened?.RemoveListener(OnSettingsOpened);
+            GameManager.Instance.CreditsOpened?.RemoveListener(OnOtherMenuOpened);
         }
 
         private void OnSettingsOpened()

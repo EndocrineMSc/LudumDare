@@ -16,6 +16,7 @@ namespace Utilities
         public UnityEvent MainMenuOpened;
         public UnityEvent SettingsOpened;
         public UnityEvent CreditsOpened;
+        public UnityEvent HowToPlayOpened;
 
         private readonly string LEVEL_ONE_PARAM = "LevelOne";
 
@@ -50,7 +51,7 @@ namespace Utilities
 
             switch (state)
             {
-                case GameState.MainMenu:                                       
+                case GameState.MainMenu:
                     MainMenuOpened.Invoke();
                     break;
                 case GameState.SettingsMenu:
@@ -58,6 +59,9 @@ namespace Utilities
                     break;
                 case GameState.CreditsMenu:
                     CreditsOpened.Invoke();
+                    break;
+                case GameState.HowToPlayMenu:
+                    HowToPlayOpened.Invoke();
                     break;
                 case GameState.LevelOne:
                     SceneManager.LoadSceneAsync(LEVEL_ONE_PARAM);
@@ -74,6 +78,7 @@ namespace Utilities
         SettingsMenu,
         CreditsMenu,
         PauseMenu,
+        HowToPlayMenu,
         LevelOne,
     }
 }
