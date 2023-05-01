@@ -1,3 +1,4 @@
+using Audio;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -230,6 +231,7 @@ namespace Characters
         {
             if (_moveInput.x != 0)
             {
+                AudioManager.Instance.PlaySoundEffectOnce(SFX._006_step_left);
                 _playerAnimator.SetTrigger(WALK_TRIGGER);
                 CheckDirectionToFace(_moveInput.x > 0);
                 _idleTimer = 0.5f;
@@ -308,6 +310,7 @@ namespace Characters
 
         private void Jump()
         {
+            AudioManager.Instance.PlaySoundEffectOnce(SFX._003_Jump_01);
             _lastPressedJumpTime = 0;
             _lastOnGroundTime = 0;
 
@@ -386,10 +389,12 @@ namespace Characters
         {
             if(collision.gameObject.TryGetComponent<Enemy>(out _))
             {
+                AudioManager.Instance.PlaySoundEffectOnce(SFX._004_Player_Death_02);
                 TakeDamage(collision);
             }
             else if(collision.gameObject.name.Contains("Death"))
             {
+                AudioManager.Instance.PlaySoundEffectOnce(SFX._004_Player_Death_02);
                 LevelEvents.Instance.LifeIsLost?.Invoke();
             }
         }
@@ -413,7 +418,7 @@ namespace Characters
             if (IsHoldingBag) 
             {
                 IsHoldingBag = false;
-                GameObject bagObject = Instantiate(_deliveryBagPrefab, transform.position, Quaternion.identity);
+                Instantiate(_deliveryBagPrefab, transform.position, Quaternion.identity);
                 LevelEvents.Instance.BagIsLost?.Invoke();             
             }
 

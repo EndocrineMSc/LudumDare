@@ -1,3 +1,4 @@
+using Audio;
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
@@ -51,6 +52,7 @@ namespace Characters
 
         public void TakeDamage()
         {
+            AudioManager.Instance.PlaySoundEffectOnce(SFX._002_Enemy_Death_02);
             _collider.enabled = false;
             _colliderGroundFeeler.enabled = false;
             _rigidbody.gravityScale = 0;

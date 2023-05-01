@@ -1,3 +1,4 @@
+using Audio;
 using System.Collections;
 using UnityEngine;
 using Utilities;
@@ -107,6 +108,7 @@ namespace Characters
 
         private void Shoot(Vector2 direction)
         {
+            AudioManager.Instance.PlaySoundEffectWithoutLimit(SFX._005_Wurf_02);
             _animator.SetTrigger("Attack");
             GameObject shot = Instantiate(_shotPrefab, transform.position, Quaternion.identity);
             Rigidbody2D rigidbody = shot.GetComponent<Rigidbody2D>();

@@ -171,5 +171,6 @@ namespace Audio
         _003_Jump_01,
         _004_Player_Death_02,
         _005_Wurf_02,
+        _006_step_left,
     }
 }
