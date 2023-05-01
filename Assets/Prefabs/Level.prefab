@@ -154,6 +154,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3678640236577564770}
+  - component: {fileID: 242323345}
   m_Layer: 0
   m_Name: Foreground
   m_TagString: Untagged
@@ -201,6 +202,19 @@ Transform:
   m_Father: {fileID: 2627640451282547930}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &242323345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1151440817082455039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d9c797ddd43d044dadc34e3f322ea73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _parallaxEffectMultiplier: {x: 0.4, y: 0.1}
 --- !u!1 &1235197474188296476
 GameObject:
   m_ObjectHideFlags: 0
@@ -17101,6 +17115,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2627640451282547930}
     m_Modifications:
+    - target: {fileID: 744324657401691881, guid: 82fc56ae0474adb4c8a2491ac5d22e7a, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2940356156894029300, guid: 82fc56ae0474adb4c8a2491ac5d22e7a, type: 3}
       propertyPath: m_Name
       value: Witch
