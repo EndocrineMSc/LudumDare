@@ -63,6 +63,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4502393912276087961, guid: f3ddc50247420314f9df41e3fc3152b4, type: 3}
+      propertyPath: m_Size.x
+      value: 6.42
+      objectReference: {fileID: 0}
+    - target: {fileID: 4502393912276087961, guid: f3ddc50247420314f9df41e3fc3152b4, type: 3}
+      propertyPath: m_Size.y
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4502393912276087961, guid: f3ddc50247420314f9df41e3fc3152b4, type: 3}
+      propertyPath: m_Offset.y
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 5357159801763613514, guid: f3ddc50247420314f9df41e3fc3152b4, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -89,7 +101,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7505236663309362874, guid: f3ddc50247420314f9df41e3fc3152b4, type: 3}
       propertyPath: m_Name
-      value: Enemy_03
+      value: Enemy_03 Variant
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f3ddc50247420314f9df41e3fc3152b4, type: 3}
