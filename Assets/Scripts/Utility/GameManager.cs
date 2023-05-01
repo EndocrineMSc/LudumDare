@@ -50,7 +50,7 @@ namespace Utilities
 
             switch (state)
             {
-                case GameState.MainMenu:
+                case GameState.MainMenu:                                       
                     MainMenuOpened.Invoke();
                     break;
                 case GameState.SettingsMenu:
