@@ -42,8 +42,8 @@ namespace Utilities
 
         private void Start()
         {
-            Physics2D.IgnoreLayerCollision(7, 8, true);
             SwitchState(GameState.MainMenu);
+            Application.targetFrameRate = 60;
         }
 
         internal void SwitchState (GameState state)

@@ -44,7 +44,7 @@ namespace Characters
 
         private void Start()
         {
-            _player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+            _player = Player.Instance;
             _countdownHelper = _player.DeliveryBagTimer;
             Countdown = _player.DeliveryBagTimer;
             _birdSpawn = GameObject.FindGameObjectWithTag("BirdSpawn");
