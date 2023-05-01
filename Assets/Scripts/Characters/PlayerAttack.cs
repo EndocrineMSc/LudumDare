@@ -1,4 +1,6 @@
+using System.Collections;
 using UnityEngine;
+using Utilities;
 
 namespace Characters
 {
@@ -14,7 +16,8 @@ namespace Characters
         private GameObject _aimRecticle;
         private float _aimSpeed = 1.2f;
         private float _aimTimer = 0;
-        private bool _keepAiming;
+        internal bool KeepAiming;
+        private bool _aimAborted;
         private GameObject _player;
         private bool _recticleIsOnWayUp = true;
 
@@ -35,32 +38,45 @@ namespace Characters
             _animator = _player.GetComponent<Animator>();
         }
 
+        private IEnumerator ResetAiming()
+        {
+            yield return new WaitForSeconds(1f);
+            _aimAborted = false;
+        }
+
         private void Update()
         {
-            _recticleSprite.enabled = _keepAiming;
+            _recticleSprite.enabled = KeepAiming;
 
-            if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.F) || Input.GetKeyUp(KeyCode.LeftAlt))
+            if ((Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.F) || Input.GetKeyUp(KeyCode.LeftAlt)) && !PauseControl.Instance.GameIsPaused && !_aimAborted)
             {
                 _animator.SetTrigger("Aim");
                 transform.rotation = Quaternion.Euler(0, 0, 0);
-                _keepAiming = true;
+                KeepAiming = true;
             }
 
             if (Input.GetKeyDown(KeyCode.S))
             {
-                _keepAiming = false;
+                _animator.SetTrigger("Idle");
+                _aimAborted = true;
+                KeepAiming = false;
             }
 
-            if (Input.GetKeyUp(KeyCode.LeftControl) || Input.GetKeyUp(KeyCode.F) || Input.GetKeyUp(KeyCode.LeftAlt))
+            if (Input.GetKeyUp(KeyCode.S))
+            {
+                StartCoroutine(ResetAiming());
+            }
+
+            if ((Input.GetKeyUp(KeyCode.LeftControl) || Input.GetKeyUp(KeyCode.F) || Input.GetKeyUp(KeyCode.LeftAlt)) && !PauseControl.Instance.GameIsPaused && !_aimAborted)
             {
                 Shoot(GetShotDirection());
                 transform.eulerAngles = new(0, 0, 0);
                 _recticleIsOnWayUp = true;
-                _keepAiming = false;
+                KeepAiming = false;
                 _aimTimer = 0;
             }
 
-            if (_keepAiming && !_shotIsOnCooldown)
+            if (KeepAiming && !_shotIsOnCooldown)
             {
                 float maxAngle = _player.transform.localScale.x > 0 ? 100 : -100;
                 float angle = _recticleIsOnWayUp ? Mathf.Lerp(0, maxAngle, _aimTimer / _aimSpeed) : Mathf.Lerp(maxAngle, 0, _aimTimer /_aimSpeed);

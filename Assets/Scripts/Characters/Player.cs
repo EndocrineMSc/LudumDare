@@ -26,9 +26,11 @@ namespace Characters
 
         #region Animation
 
+        private float _idleTimer = 0.5f;
         private float _hurtAnimationDuration = 0.5f;
         private Animator _playerAnimator;
         internal bool IsInHurtAnimation { get; private set; }
+        private PlayerAttack _playerAttack;
 
         #endregion
 
@@ -103,6 +105,7 @@ namespace Characters
             _playerCollider = GetComponentInChildren<Collider2D>();
             _rigidbody = GetComponent<Rigidbody2D>();
             _playerVisuals = transform.GetChild(1).gameObject;
+            _playerAttack = GetComponentInChildren<PlayerAttack>();
         }
 
         private void Start()
@@ -224,17 +227,22 @@ namespace Characters
 
         private void FixedUpdate()
         {
+            Debug.Log(_moveInput.x);
+
             if (_moveInput.x != 0)
             {
                 _playerAnimator.SetTrigger(WALK_TRIGGER);
                 CheckDirectionToFace(_moveInput.x > 0);
+                _idleTimer = 0.5f;
             }
-            else
+
+            if (_idleTimer <= 0 && !_playerAttack.KeepAiming)
             {
                 _playerAnimator.SetTrigger(IDLE_TRIGGER);
             }
 
             Run(1);
+            _idleTimer -= Time.deltaTime;
         }
 
         #endregion
