@@ -13,6 +13,7 @@ TagManager:
   - BirdSpawn
   - DeliveryBag
   - HowToPlayButton
+  - Intro
   layers:
   - Default
   - TransparentFX
