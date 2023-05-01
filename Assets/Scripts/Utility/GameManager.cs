@@ -1,3 +1,4 @@
+using Audio;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -52,6 +53,8 @@ namespace Utilities
             switch (state)
             {
                 case GameState.MainMenu:
+                    AudioManager.Instance.FadeGameTrack(Track._001_Ambient_01, Fade.Out);
+                    AudioManager.Instance.FadeGameTrack(Track._002_Ambient_02, Fade.Out);
                     MainMenuOpened?.Invoke();
                     break;
                 case GameState.SettingsMenu:
@@ -65,6 +68,8 @@ namespace Utilities
                     break;
                 case GameState.LevelOne:
                     SceneManager.LoadSceneAsync(LEVEL_ONE_PARAM);
+                    AudioManager.Instance.FadeGameTrack(Track._001_Ambient_01, Fade.In);
+                    AudioManager.Instance.FadeGameTrack(Track._002_Ambient_02, Fade.In);
                     break;
             }
         }

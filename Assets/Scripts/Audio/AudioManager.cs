@@ -88,6 +88,14 @@ namespace Audio
             _soundEffects = BuildSoundEffectList();
         }
 
+        private void Start()
+        {
+            PlayGameTrack(Track._003_Pixie_Makeover);
+            PlayGameTrack(Track._002_Ambient_02);
+            PlayGameTrack(Track._003_Pixie_Makeover);
+            FadeGameTrack(Track._003_Pixie_Makeover, Fade.In);
+        }
+
         private List<AudioSource> BuildGameTrackList()
         {
             AudioClip[] _gameTrackArray = Resources.LoadAll<AudioClip>(TRACKS_PARAM);
@@ -151,13 +159,17 @@ namespace Audio
 
     internal enum Track
     {
-        _001_Menu,
-        _002_Game,
-        _003_GameOver
+        _001_Ambient_01,
+        _002_Ambient_02,
+        _003_Pixie_Makeover
     }
 
     internal enum SFX
     {
         _001_ButtonClick,
+        _002_Enemy_Death_02,
+        _003_Jump_01,
+        _004_Player_Death_02,
+        _005_Wurf_02,
     }
 }
