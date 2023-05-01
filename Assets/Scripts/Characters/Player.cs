@@ -362,17 +362,21 @@ namespace Characters
             {
                 TakeDamage();
             }
-            else if(collision.gameObject.TryGetComponent<DeliveryBag>(out DeliveryBag deliveryBag))
+            else if(collision.gameObject.name.Contains("Death"))
+            {
+                LevelEvents.Instance.LifeIsLost?.Invoke();
+            }
+        }
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (collision.gameObject.TryGetComponent<DeliveryBag>(out DeliveryBag deliveryBag))
             {
                 IsHoldingBag = true;
                 LevelEvents.Instance.BagIsRetrieved?.Invoke();
                 DeliveryBagTimer = deliveryBag.Countdown;
                 Destroy(collision.gameObject);
                 DeliveryBagTimer = DeliveryBagTimer < 10 ? 10 : DeliveryBagTimer;
-            }
-            else if(collision.gameObject.name.Contains("Death"))
-            {
-                LevelEvents.Instance.LifeIsLost?.Invoke();
             }
         }
 
@@ -384,10 +388,10 @@ namespace Characters
             if (IsHoldingBag) 
             {
                 IsHoldingBag = false;
-                LevelEvents.Instance.BagIsLost?.Invoke();
                 GameObject bagObject = Instantiate(_deliveryBagPrefab, transform.position, Quaternion.identity);
                 DeliveryBag deliveryBag = bagObject.GetComponent<DeliveryBag>();
                 deliveryBag.SetCountdown(DeliveryBagTimer);
+                LevelEvents.Instance.BagIsLost?.Invoke();
             }
 
             yield return new WaitForSeconds(_hurtAnimationDuration);

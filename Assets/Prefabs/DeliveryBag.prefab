@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7264377809898749195}
   m_Layer: 9
   m_Name: DeliveryBag
-  m_TagString: Untagged
+  m_TagString: DeliveryBag
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29,8 +29,8 @@ Transform:
   m_GameObject: {fileID: 3744723399405259791}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -5.518111, y: 4.901519, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5433108674402967264}
   m_Father: {fileID: 0}
@@ -100,12 +100,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f523975b7ad7344bad11b48520e14e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _shotSpeed: 2.5
-  _movementCooldown: 2
-  _maxUpperYDistance: 20
+  _shotSpeed: 3
+  _movementCooldown: 1
+  _maxUpperYDistance: 30
   _maxLowerYDistance: 0.2
-  _maxXDistance: 20
-  _birdPrefab: {fileID: -6196269101031056652, guid: bfa812b07d2b66545a647570890370c1, type: 3}
+  _maxXDistance: 40
 --- !u!58 &7490200647406706559
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -116,12 +115,12 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.3597666}
+  m_Offset: {x: 0, y: -0.07799888}
   serializedVersion: 2
-  m_Radius: 0.8597666
+  m_Radius: 1.1415343
 --- !u!50 &7264377809898749195
 Rigidbody2D:
   serializedVersion: 4

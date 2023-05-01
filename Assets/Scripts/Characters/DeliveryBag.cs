@@ -128,20 +128,17 @@ namespace Characters
             _rigidbody.AddForce(new Vector2(randomX,randomY) * _shotSpeed, ForceMode2D.Impulse);
         }
 
-        private void OnCollisionEnter2D(Collision2D collision)
-        {
-            if (collision.gameObject.TryGetComponent<Shot>(out _))
-            {
-                _rigidbody.AddForce(Vector2.down * _shotSpeed, ForceMode2D.Impulse);
-            }
-        }
-
         private void OnTriggerEnter2D(Collider2D collision)
         {
             if (collision.gameObject.TryGetComponent<CarrierBird>(out _))
             {
                 _rigidbody.velocity = Vector2.zero;
                 _isRetrievedByBird = true;
+            }
+
+            if (collision.gameObject.TryGetComponent<Shot>(out _))
+            {
+                _rigidbody.AddForce(Vector2.down * _shotSpeed, ForceMode2D.Impulse);
             }
         }
 
