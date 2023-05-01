@@ -44,6 +44,7 @@ namespace Utilities
         {
             SwitchState(GameState.MainMenu);
             Application.targetFrameRate = 60;
+            SceneManager.sceneLoaded += OnSceneLoaded;
         }
 
         internal void SwitchState (GameState state)
@@ -71,6 +72,16 @@ namespace Utilities
                     AudioManager.Instance.FadeGameTrack(Track._001_Ambient_01, Fade.In);
                     AudioManager.Instance.FadeGameTrack(Track._002_Ambient_02, Fade.In);
                     break;
+            }
+        }
+
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            if (scene.name.Contains("MainMenu"))
+            {
+                Debug.Log("Main Menu Loaded");
+                SwitchState(GameState.MainMenu);
+                GameObject.Find("MainMenuCanvas").GetComponent<Canvas>().enabled = true;
             }
         }
 
