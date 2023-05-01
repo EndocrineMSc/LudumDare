@@ -227,8 +227,6 @@ namespace Characters
 
         private void FixedUpdate()
         {
-            Debug.Log(_moveInput.x);
-
             if (_moveInput.x != 0)
             {
                 _playerAnimator.SetTrigger(WALK_TRIGGER);
