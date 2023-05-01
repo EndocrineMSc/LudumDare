@@ -10,6 +10,8 @@ TagManager:
   - GameTitle
   - Ground
   - PlayerSpawn
+  - BirdSpawn
+  - DeliveryBag
   layers:
   - Default
   - TransparentFX

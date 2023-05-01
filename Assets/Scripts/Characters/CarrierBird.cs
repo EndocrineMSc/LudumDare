@@ -68,7 +68,7 @@ namespace Characters
             _bagIsRetrievedByPlayer = true;
             transform.DOKill();
             _rigidbody.velocity = Vector3.zero;
-            transform.DOMoveY(1000, 3f);
+            transform.DOMoveY(200, 20f);
             StartCoroutine(DestroyWithDelay());
         }
 
@@ -86,12 +86,14 @@ namespace Characters
         private IEnumerator DestroyWithDelay()
         {
             yield return new WaitForSeconds(4);
+            transform.DOKill(gameObject);
             Destroy(gameObject);
         }
 
         private IEnumerator LoseLifeAfterDelay()
         {
             yield return new WaitForSeconds(2f);
+            transform.DOKill(gameObject);
             LevelEvents.Instance.LifeIsLost?.Invoke();
         }
 
