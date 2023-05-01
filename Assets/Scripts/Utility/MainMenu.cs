@@ -18,15 +18,17 @@ namespace Utilities
         private readonly string SETTINGS_BUTTON_PARAM = "SettingsButton";
         private readonly string CREDITS_BUTTON_PARAM = "CreditsButton";
         private readonly string TITLE_PARAM = "GameTitle";
-        private readonly float _buttonXAnimationDistance = 200f;
+        private readonly float _startButtonXAnimationDistance = 200f;
+        private readonly float _settingsButtonXAnimationDistance = 400;
+        private readonly float _creditsButtonXAnimationDistance = 600;
         private readonly float _buttonAnimationDuration = 1f;
-        private readonly float _titleYAnimationDistance = 500f;
+        private readonly float _titleYAnimationDistance = 150f;
         private readonly float _titleAnimationDuration = 2f;
 
-        private Button _startButton;
-        private Button _settingsButton;
-        private Button _creditsButton;
-        private TextMeshProUGUI _gameTitle;
+        private GameObject _startButton;
+        private GameObject _settingsButton;
+        private GameObject _creditsButton;
+        private Image _gameTitle;
 
         #endregion
 
@@ -40,10 +42,10 @@ namespace Utilities
 
         private void Start()
         {
-            _startButton = GameObject.FindGameObjectWithTag(START_BUTTON_PARAM).GetComponent<Button>();
-            _settingsButton = GameObject.FindGameObjectWithTag(SETTINGS_BUTTON_PARAM).GetComponent<Button>();
-            _creditsButton = GameObject.FindGameObjectWithTag(CREDITS_BUTTON_PARAM).GetComponent<Button>();
-            _gameTitle = GameObject.FindGameObjectWithTag(TITLE_PARAM).GetComponent<TextMeshProUGUI>();
+            _startButton = GameObject.FindGameObjectWithTag(START_BUTTON_PARAM);
+            _settingsButton = GameObject.FindGameObjectWithTag(SETTINGS_BUTTON_PARAM);
+            _creditsButton = GameObject.FindGameObjectWithTag(CREDITS_BUTTON_PARAM);
+            _gameTitle = GameObject.FindGameObjectWithTag(TITLE_PARAM).GetComponent<Image>();
 
             GameManager.Instance.MainMenuOpened?.AddListener(OnMainMenuOpened);
             GameManager.Instance.SettingsOpened?.AddListener(OnOtherMenuOpened);
@@ -51,9 +53,9 @@ namespace Utilities
 
             StartCoroutine(AnimateMenuUI());
 
-            _startButton.onClick.AddListener(StartGame);
-            _settingsButton.onClick.AddListener(OpenSettings);
-            _creditsButton.onClick.AddListener(OpenCredits);
+            _startButton.GetComponent<Button>().onClick.AddListener(StartGame);
+            _settingsButton.GetComponent<Button>().onClick.AddListener(OpenSettings);
+            _creditsButton.GetComponent<Button>().onClick.AddListener(OpenCredits);
         }
 
         private void OnDisable()
@@ -67,22 +69,22 @@ namespace Utilities
         {
             AnimateTitle();
             yield return new WaitForSeconds(_titleAnimationDuration);
-            AnimateButton(_startButton);
+            AnimateButton(_startButton, _startButtonXAnimationDistance);
             yield return new WaitForSeconds(0.2f);
-            AnimateButton(_settingsButton);
+            AnimateButton(_settingsButton, _settingsButtonXAnimationDistance);
             yield return new WaitForSeconds(0.2f);
-            AnimateButton(_creditsButton);
+            AnimateButton(_creditsButton, _creditsButtonXAnimationDistance);
             yield return new WaitForSeconds(0.2f);
         }
 
-        private void AnimateButton(Button button)
+        private void AnimateButton(GameObject button, float buttonXAnimationDistance)
         {
-            button.transform.DOMoveX(_buttonXAnimationDistance, _buttonAnimationDuration).SetEase(Ease.OutBounce);
+            button.GetComponent<RectTransform>().DOLocalMoveX(buttonXAnimationDistance, _buttonAnimationDuration).SetEase(Ease.OutBounce);
         }
 
         private void AnimateTitle()
         {
-            _gameTitle.transform.DOMoveY(_titleYAnimationDistance, _titleAnimationDuration).SetEase(Ease.Linear);
+            _gameTitle.rectTransform.DOLocalMoveY(_titleYAnimationDistance, _titleAnimationDuration).SetEase(Ease.Linear);
         }
 
         private void OnMainMenuOpened()
