@@ -17,7 +17,7 @@ public class TimePowerUp : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             transform.DOKill(gameObject);
-            GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().DeliveryBagTimer += 10;
+            Player.Instance.DeliveryBagTimer += 10;
             LevelEvents.Instance.TimePowerUpPickedUp?.Invoke();
             Destroy(gameObject);
         }

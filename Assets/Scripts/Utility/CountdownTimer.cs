@@ -43,7 +43,7 @@ namespace Utilities
         {
             if(_readFromPlayer && _isActive)
             {
-                _currentCountdown = FindObjectOfType<Player>().DeliveryBagTimer;
+                _currentCountdown = Player.Instance.DeliveryBagTimer;
                 _countdownTimer.text = _currentCountdown.ToString();
             }
             else if(_readFromBag && _isActive)
