@@ -12,6 +12,8 @@ namespace Characters
     {
         #region Fields and Properties
 
+        internal static Player Instance { get; private set; }
+
         #region Param Strings
 
         private readonly string HURT_TRIGGER = "Hurt";
@@ -66,31 +68,31 @@ namespace Characters
         [Header("Gravity")]
         private float _gravityStrength;
         private float _gravityScale;
-        [SerializeField] private float _maxFallSpeed;
-        [SerializeField] private float _fallGravityMultiplier;
-        [SerializeField] private float _fastFallGravityMultiplier;
-        [SerializeField] private float _maxFastFallSpeed;
+        private readonly float _maxFallSpeed = 30;
+        private readonly float _fallGravityMultiplier = 5;
+        private readonly float _fastFallGravityMultiplier = 8;
+        private readonly float _maxFastFallSpeed = 15;
 
         [Header("Run")]
-        [SerializeField] private float _runMaxSpeed;
-        [SerializeField] private float _runAccelerationSpeed;
+        private float _runMaxSpeed = 15;
+        private float _runAccelerationSpeed = 3;
         private float _runAccelerationAmount;
-        [SerializeField] private float _runDeccelerationSpeed;
+        private float _runDeccelerationSpeed = 1;
         private float _runDeccelerationAmount;
-        [SerializeField] private float _accelarationInAir;
-        [SerializeField] private float _deccelerationInAir;
+        private readonly float _accelarationInAir = 1;
+        private readonly float _deccelerationInAir = 1;
 
         [Header("Jump")]
-        [SerializeField] private float _jumpHeight;
-        [SerializeField] private float _jumpTimeToApex;
+        private readonly float _jumpHeight = 20;
+        private readonly float _jumpTimeToApex = 1;
         private float _jumpForce;
-        [SerializeField] private float _jumpCutGravityMultiplier;
-        [SerializeField, Range(0f,1f)] private float _jumpHangGravityMultiplier;
-        [SerializeField] private float _jumpHangTimeThreshold;
-        [SerializeField] private float _jumpHangAccelerationMultiplier;
-        [SerializeField] private float _jumpHangMaxSpeedMultiplier;
-        [SerializeField, Range(0.01f, 0.5f)] private float _coyoteTime;
-        [SerializeField, Range(0.01f, 0.5f)] private float _jumpInputBufferTime;
+        private readonly float _jumpCutGravityMultiplier = 5;
+        private readonly float _jumpHangGravityMultiplier = 0.4f;
+        private readonly float _jumpHangTimeThreshold = 0.1f;
+        private readonly float _jumpHangAccelerationMultiplier = 1;
+        private readonly float _jumpHangMaxSpeedMultiplier = 1;
+        private readonly float _coyoteTime = 0.15f;
+        private readonly float _jumpInputBufferTime = 0.1f;
         private Vector2 _groundCheckSize;
         private Vector2 _groundCheckPoint;
 
@@ -102,6 +104,11 @@ namespace Characters
 
         private void Awake()
         {
+            if (Instance == null)
+                Instance = this;
+            else
+                Destroy(gameObject);
+
             _playerAnimator = GetComponent<Animator>();
             _playerCollider = GetComponentInChildren<Collider2D>();
             _rigidbody = GetComponent<Rigidbody2D>();
@@ -111,14 +118,6 @@ namespace Characters
 
         private void Start()
         {
-            LevelEvents.Instance.LifeIsLost?.AddListener(OnLifeIsLost);
-            SetGravityScale(_gravityScale);
-            _isFacingRight = true;
-            _groundCheckSize = new(_playerCollider.bounds.size.x - 0.05f, _playerCollider.bounds.size.y);
-        }
-
-        private void OnValidate()
-        {
             _gravityStrength = -(2 * _jumpHeight) / (_jumpTimeToApex * _jumpTimeToApex);
             _gravityScale = _gravityStrength / Physics2D.gravity.y;
             _runAccelerationAmount = (50 * _runAccelerationSpeed) / _runMaxSpeed;
@@ -126,7 +125,12 @@ namespace Characters
             _jumpForce = Mathf.Abs(_gravityStrength) * _jumpTimeToApex;
 
             _runAccelerationSpeed = Mathf.Clamp(_runAccelerationSpeed, 0.01f, _runMaxSpeed);
-            _runDeccelerationSpeed = Mathf.Clamp(_runDeccelerationSpeed, 0.01f, _runMaxSpeed);           
+            _runDeccelerationSpeed = Mathf.Clamp(_runDeccelerationSpeed, 0.01f, _runMaxSpeed);
+
+            LevelEvents.Instance.LifeIsLost?.AddListener(OnLifeIsLost);
+            SetGravityScale(_gravityScale);
+            _isFacingRight = true;
+            _groundCheckSize = new(_playerCollider.bounds.size.x - 0.05f, _playerCollider.bounds.size.y);
         }
 
         private void SetGravityScale(float gravityScale)
