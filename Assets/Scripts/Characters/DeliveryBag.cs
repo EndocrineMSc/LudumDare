@@ -26,6 +26,8 @@ namespace Characters
         private float _movementMaxCooldown;
         private bool _isRetrievedByBird;
 
+        private GameObject _birdSpawn;
+        private bool _birdIsSpawned;
 
         #endregion
 
@@ -43,6 +45,7 @@ namespace Characters
         private void Start()
         {
             _player = FindObjectOfType<Player>();
+            _birdSpawn = GameObject.FindGameObjectWithTag("BirdSpawn");
         }
 
         internal void SetCountdown(int countdown)
@@ -101,7 +104,13 @@ namespace Characters
                     }
                     _movementCooldown = _movementMaxCooldown;
                 }
-            }       
+            } 
+            
+            if (Countdown == 0 && !_birdIsSpawned)
+            {
+                _birdIsSpawned = true;
+                Instantiate(_player.CarrierBird, _birdSpawn.transform.position, Quaternion.identity);
+            }
         }
         
         private IEnumerator HandleColliderAtAwake()

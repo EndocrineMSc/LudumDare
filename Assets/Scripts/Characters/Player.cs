@@ -35,6 +35,8 @@ namespace Characters
         #region Delivery Bag Mechanics
 
         [SerializeField] private GameObject _deliveryBagPrefab;
+
+        public GameObject CarrierBird;
         internal bool IsHoldingBag { get; private set; } = true;
         internal int DeliveryBagTimer { get; private set; } = 20;
 

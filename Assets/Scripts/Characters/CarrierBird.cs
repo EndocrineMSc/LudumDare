@@ -53,6 +53,7 @@ namespace Characters
             {
                 _bagIsRetrievedByBird = false;
                 transform.DOMoveY(200, 20f);
+                StartCoroutine(LoseLifeAfterDelay());
             }
         }
 
@@ -86,6 +87,12 @@ namespace Characters
         {
             yield return new WaitForSeconds(4);
             Destroy(gameObject);
+        }
+
+        private IEnumerator LoseLifeAfterDelay()
+        {
+            yield return new WaitForSeconds(2f);
+            LevelEvents.Instance.LifeIsLost?.Invoke();
         }
 
         #endregion

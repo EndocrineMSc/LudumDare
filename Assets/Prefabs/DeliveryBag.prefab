@@ -105,6 +105,7 @@ MonoBehaviour:
   _maxUpperYDistance: 20
   _maxLowerYDistance: 0.2
   _maxXDistance: 20
+  _birdPrefab: {fileID: -6196269101031056652, guid: bfa812b07d2b66545a647570890370c1, type: 3}
 --- !u!58 &7490200647406706559
 CircleCollider2D:
   m_ObjectHideFlags: 0
