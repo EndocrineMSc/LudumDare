@@ -67,12 +67,14 @@ namespace Characters
             {
                 _rigidbody.velocity = Vector2.left * _moveSpeed;
                 _spriteRenderer.flipX = false;
+                _turnFeeler.GetComponent<SpriteRenderer>().flipX = false; 
                 _turnFeeler.transform.localPosition = new(-_turnFeeler.transform.localPosition.x, _turnFeeler.transform.localPosition.y, _turnFeeler.transform.localPosition.z);
             }
             else
             {
                 _rigidbody.velocity = Vector2.right * _moveSpeed;
                 _spriteRenderer.flipX = true;
+                _turnFeeler.GetComponent<SpriteRenderer>().flipX = true;
                 _turnFeeler.transform.localPosition = new(-_turnFeeler.transform.localPosition.x, _turnFeeler.transform.localPosition.y, _turnFeeler.transform.localPosition.z);
             }
         }

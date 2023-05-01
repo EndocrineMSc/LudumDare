@@ -264,7 +264,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _moveSpeed: 4
   _xJumpOffset: 0.5
-  yJumpOffset: -0.075
+  yJumpOffset: 1
   _jumpPower: 1
   _jumpDuration: 0.5
 --- !u!95 &3969728291856192356

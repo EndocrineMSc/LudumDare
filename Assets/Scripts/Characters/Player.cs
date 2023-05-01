@@ -7,7 +7,7 @@ using Utilites;
 
 namespace Characters
 {
-    internal class Player : MonoBehaviour, IDamagable
+    internal class Player : MonoBehaviour
     {
         #region Fields and Properties
 
@@ -146,82 +146,83 @@ namespace Characters
             {
                 _moveInput.x = Input.GetAxisRaw(X_AXIS);
                 _moveInput.y = Input.GetAxisRaw(Y_AXIS);
-            }
 
-            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.J))
-            {
-                _playerAnimator.SetTrigger(JUMP_TRIGGER);
-                OnJumpInput();
-            }
 
-            if (Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.J))
-            {   
-                OnJumpUpInput();
-            }
-
-            //Collision Checks
-            _groundCheckPoint = new(_playerVisuals.transform.position.x, _playerVisuals.transform.position.y - 0.2f);
-
-            if(IsGrounded() && !_isJumping)
-            {
-                _lastOnGroundTime = _coyoteTime;
-                if (_isFalling)
+                if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.J))
                 {
-                    _isFalling = false;
-                    _playerAnimator.SetTrigger(IDLE_TRIGGER);
+                    _playerAnimator.SetTrigger(JUMP_TRIGGER);
+                    OnJumpInput();
                 }
-            }
 
-            //Jump Checks
-            if(_isJumping && _rigidbody.velocity.y < 0)
-            {
-                _playerAnimator.SetTrigger(FALL_TRIGGER);
-                _isFalling = true;
-                _isJumping = false;
-                _isJumpFalling = true;
-            }
-
-            if(_lastOnGroundTime > 0 && !_isJumping)
-            {
-                _isJumpCut = false;
-
-                if(!_isJumping)
+                if (Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.J))
                 {
+                    OnJumpUpInput();
+                }
+
+                //Collision Checks
+                _groundCheckPoint = new(_playerVisuals.transform.position.x, _playerVisuals.transform.position.y - 0.2f);
+
+                if (IsGrounded() && !_isJumping)
+                {
+                    _lastOnGroundTime = _coyoteTime;
+                    if (_isFalling)
+                    {
+                        _isFalling = false;
+                        _playerAnimator.SetTrigger(IDLE_TRIGGER);
+                    }
+                }
+
+                //Jump Checks
+                if (_isJumping && _rigidbody.velocity.y < 0)
+                {
+                    _playerAnimator.SetTrigger(FALL_TRIGGER);
+                    _isFalling = true;
+                    _isJumping = false;
+                    _isJumpFalling = true;
+                }
+
+                if (_lastOnGroundTime > 0 && !_isJumping)
+                {
+                    _isJumpCut = false;
+
+                    if (!_isJumping)
+                    {
+                        _isJumpFalling = false;
+                    }
+                }
+
+                //Jump
+                if (CanJump() && _lastPressedJumpTime > 0)
+                {
+                    _isJumping = true;
+                    _isJumpCut = false;
                     _isJumpFalling = false;
+                    Jump();
                 }
-            }
 
-            //Jump
-            if(CanJump() && _lastPressedJumpTime > 0)
-            {
-                _isJumping = true;
-                _isJumpCut = false;
-                _isJumpFalling = false;
-                Jump();
-            }
-
-            //Gravity
-            if (_rigidbody.velocity.y < 0 && _moveInput.y <0)
-            {
-                SetGravityScale(_gravityScale * _fastFallGravityMultiplier);
-                _rigidbody.velocity = new(_rigidbody.velocity.x, Mathf.Max(_rigidbody.velocity.y, -_maxFastFallSpeed));
-            }
-            else if(_isJumpCut)
-            {
-                SetGravityScale(_gravityScale * _jumpCutGravityMultiplier);
-                _rigidbody.velocity = new(_rigidbody.velocity.x, Mathf.Max(_rigidbody.velocity.y, -_maxFastFallSpeed));
-            }
-            else if((_isJumping || _isJumpFalling) && Mathf.Abs(_rigidbody.velocity.y) < _jumpHangTimeThreshold)
-            {
-                SetGravityScale(_gravityScale * _jumpCutGravityMultiplier);
-            }
-            else if (_rigidbody.velocity.y < 0)
-            {
-                SetGravityScale(_gravityScale * _fallGravityMultiplier);
-            }
-            else
-            {
-                SetGravityScale(_gravityScale);
+                //Gravity
+                if (_rigidbody.velocity.y < 0 && _moveInput.y < 0)
+                {
+                    SetGravityScale(_gravityScale * _fastFallGravityMultiplier);
+                    _rigidbody.velocity = new(_rigidbody.velocity.x, Mathf.Max(_rigidbody.velocity.y, -_maxFastFallSpeed));
+                }
+                else if (_isJumpCut)
+                {
+                    SetGravityScale(_gravityScale * _jumpCutGravityMultiplier);
+                    _rigidbody.velocity = new(_rigidbody.velocity.x, Mathf.Max(_rigidbody.velocity.y, -_maxFastFallSpeed));
+                }
+                else if ((_isJumping || _isJumpFalling) && Mathf.Abs(_rigidbody.velocity.y) < _jumpHangTimeThreshold)
+                {
+                    SetGravityScale(_gravityScale * _jumpCutGravityMultiplier);
+                }
+                else if (_rigidbody.velocity.y < 0)
+                {
+                    SetGravityScale(_gravityScale * _fallGravityMultiplier);
+                }
+                else
+                {
+                    SetGravityScale(_gravityScale);
+                }
             }
         }
 
@@ -354,19 +355,38 @@ namespace Characters
 
         #region Player Mechanics
 
-        public void TakeDamage()
+        public void TakeDamage(Collision2D collision)
         {
             if(!IsInHurtAnimation)
             {
+                Debug.Log("Player: " + transform.position.x);
+                Debug.Log("Enemy: " + collision.transform.position.x);
+                IsInHurtAnimation = true;
+                if (transform.position.x < collision.transform.position.x)
+                {
+                    Debug.Log("To the left!");
+                    _rigidbody.velocity = Vector3.zero;
+                    _rigidbody.AddForce(Vector2.left * 50, ForceMode2D.Impulse);
+                }
+                else
+                {
+                    Debug.Log("To the right!");
+                    _rigidbody.velocity = Vector3.zero;
+                    _rigidbody.AddForce(Vector2.right * 50, ForceMode2D.Impulse);
+                }
                 StartCoroutine(HandleDamage());
-            }                       
+            }
+            else
+            {
+                IsInHurtAnimation = false;
+            }
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
             if(collision.gameObject.TryGetComponent<Enemy>(out _))
             {
-                TakeDamage();
+                TakeDamage(collision);
             }
             else if(collision.gameObject.name.Contains("Death"))
             {
@@ -387,16 +407,14 @@ namespace Characters
         }
 
         private IEnumerator HandleDamage()
-        {
-            IsInHurtAnimation = true;
+        {          
             _playerAnimator.SetTrigger(HURT_TRIGGER);
             
             if (IsHoldingBag) 
             {
                 IsHoldingBag = false;
                 GameObject bagObject = Instantiate(_deliveryBagPrefab, transform.position, Quaternion.identity);
-                DeliveryBag deliveryBag = bagObject.GetComponent<DeliveryBag>();
-                LevelEvents.Instance.BagIsLost?.Invoke();
+                LevelEvents.Instance.BagIsLost?.Invoke();             
             }
 
             yield return new WaitForSeconds(_hurtAnimationDuration);
