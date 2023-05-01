@@ -40,7 +40,7 @@ namespace Characters
 
         public GameObject CarrierBird;
         internal bool IsHoldingBag { get; private set; } = true;
-        internal int DeliveryBagTimer { get; private set; } = 20;
+        internal int DeliveryBagTimer { get; set; } = 20;
 
         #endregion
 
@@ -396,7 +396,6 @@ namespace Characters
                 IsHoldingBag = false;
                 GameObject bagObject = Instantiate(_deliveryBagPrefab, transform.position, Quaternion.identity);
                 DeliveryBag deliveryBag = bagObject.GetComponent<DeliveryBag>();
-                deliveryBag.SetCountdown(DeliveryBagTimer);
                 LevelEvents.Instance.BagIsLost?.Invoke();
             }
 

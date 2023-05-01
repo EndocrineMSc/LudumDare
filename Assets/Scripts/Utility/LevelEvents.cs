@@ -15,6 +15,7 @@ namespace Utilites
         public UnityEvent PlayerIsDestroyed;
         public UnityEvent BagIsLost;
         public UnityEvent BagIsRetrieved;
+        public UnityEvent TimePowerUpPickedUp;
 
         private void Awake()
         {

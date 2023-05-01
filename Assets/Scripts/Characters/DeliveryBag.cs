@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using Utilites;
 using Utilities;
 
 namespace Characters
@@ -16,7 +17,6 @@ namespace Characters
        
         internal int Countdown { get; private set; }
         private float _countdownHelper;
-        private bool _countdownIsSet;
 
         [SerializeField] private float _shotSpeed;
         [SerializeField] private float _movementCooldown;
@@ -39,28 +39,36 @@ namespace Characters
             StartCoroutine(HandleColliderAtAwake());
             _rigidbody = GetComponent<Rigidbody2D>();
             _rigidbody.AddForce(new Vector2(-1, 1) * _shotSpeed, ForceMode2D.Impulse);
-            _movementMaxCooldown = _movementCooldown;
+            _movementMaxCooldown = _movementCooldown;        
         }
 
         private void Start()
         {
-            _player = FindObjectOfType<Player>();
+            _player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+            _countdownHelper = _player.DeliveryBagTimer;
+            Countdown = _player.DeliveryBagTimer;
             _birdSpawn = GameObject.FindGameObjectWithTag("BirdSpawn");
+            LevelEvents.Instance.TimePowerUpPickedUp?.AddListener(OnPowerUp);
         }
 
-        internal void SetCountdown(int countdown)
+        private void OnDisable()
         {
-            Countdown = countdown;
-            _countdownHelper = countdown;
-            _countdownIsSet = true;
+            LevelEvents.Instance.TimePowerUpPickedUp?.RemoveListener(OnPowerUp);
+        }
+
+        private void OnPowerUp()
+        {
+            _countdownHelper = _player.DeliveryBagTimer;
+            Countdown = _player.DeliveryBagTimer;
         }
 
         void Update()
         {
-            if (_countdownIsSet && Countdown > 0 && !_isRetrievedByBird)
+            if (Countdown > 0 && !_isRetrievedByBird)
             {
                 _countdownHelper -= Time.deltaTime;
-                Countdown = Mathf.RoundToInt(_countdownHelper);
+                _player.DeliveryBagTimer = Mathf.RoundToInt(_countdownHelper);
+                Countdown = _player.DeliveryBagTimer;
                 _movementCooldown -= Time.deltaTime;
 
                 if(_movementCooldown <= 0)

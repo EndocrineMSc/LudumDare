@@ -52,16 +52,16 @@ namespace Utilities
             switch (state)
             {
                 case GameState.MainMenu:
-                    MainMenuOpened.Invoke();
+                    MainMenuOpened?.Invoke();
                     break;
                 case GameState.SettingsMenu:
-                    SettingsOpened.Invoke();
+                    SettingsOpened?.Invoke();
                     break;
                 case GameState.CreditsMenu:
-                    CreditsOpened.Invoke();
+                    CreditsOpened?.Invoke();
                     break;
                 case GameState.HowToPlayMenu:
-                    HowToPlayOpened.Invoke();
+                    HowToPlayOpened?.Invoke();
                     break;
                 case GameState.LevelOne:
                     SceneManager.LoadSceneAsync(LEVEL_ONE_PARAM);

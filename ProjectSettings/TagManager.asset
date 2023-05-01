@@ -12,6 +12,7 @@ TagManager:
   - PlayerSpawn
   - BirdSpawn
   - DeliveryBag
+  - HowToPlayButton
   layers:
   - Default
   - TransparentFX
