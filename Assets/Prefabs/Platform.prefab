@@ -83,8 +83,8 @@ SpriteShapeRenderer:
   - {fileID: 21300000, guid: 72ea96d210da65c4eab56386233ef65d, type: 3}
   - {fileID: 21300000, guid: 72ea96d210da65c4eab56386233ef65d, type: 3}
   m_LocalAABB:
-    m_Center: {x: -2.5, y: -3.3600006, z: 0}
-    m_Extent: {x: 34.56, y: 4.6400003, z: 0}
+    m_Center: {x: -2.4399986, y: -3.5125003, z: 0}
+    m_Extent: {x: 34.190002, y: 4.4875007, z: 0}
 --- !u!114 &2199313127071638680
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,7 +169,7 @@ PolygonCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.18}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -182,8 +182,8 @@ PolygonCollider2D:
   m_Points:
     m_Paths:
     - - {x: -36, y: -8}
-      - {x: -36, y: 1.28}
-      - {x: 31, y: 1.28}
+      - {x: -36, y: 0.97499996}
+      - {x: 31, y: 0.97499996}
       - {x: 31, y: -8}
       - {x: -32.744297, y: -8}
       - {x: -35.14637, y: -8}
