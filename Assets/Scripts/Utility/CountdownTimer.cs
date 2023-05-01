@@ -28,6 +28,7 @@ namespace Utilities
             _counterBackground = GetComponent<Image>();
             LevelEvents.Instance.BagIsLost?.AddListener(OnBagLost);
             LevelEvents.Instance.BagIsRetrieved?.AddListener(OnBagRetrieved);
+            LevelEvents.Instance.TimePowerUpPickedUp?.AddListener(OnPowerUp);
             StartCoroutine(InactivateAfterDelay());
             _punchVector = _counterBackground.rectTransform.localScale * 1.5f;
         }
@@ -88,6 +89,13 @@ namespace Utilities
             _isActive = true;
             _counterBackground.DOFade(1, 1f);
             _countdownTimer.DOFade(1, 1f);
+        }
+
+        private void OnPowerUp()
+        {
+            Activate();
+            StartCoroutine(PunchThatImage());
+            StartCoroutine(InactivateAfterDelay());
         }
 
         private IEnumerator PunchThatImage()
