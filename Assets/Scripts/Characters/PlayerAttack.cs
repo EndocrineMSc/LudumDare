@@ -41,6 +41,7 @@ namespace Characters
 
         private IEnumerator ResetAiming()
         {
+            _animator.SetTrigger("Abort");
             yield return new WaitForSeconds(1f);
             _aimAborted = false;
         }
@@ -51,14 +52,13 @@ namespace Characters
 
             if ((Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.F) || Input.GetKeyUp(KeyCode.LeftAlt)) && !PauseControl.Instance.GameIsPaused && !_aimAborted)
             {
+                KeepAiming = true;
                 _animator.SetTrigger("Aim");
                 transform.rotation = Quaternion.Euler(0, 0, 0);
-                KeepAiming = true;
             }
 
             if (Input.GetKeyDown(KeyCode.S))
             {
-                _animator.SetTrigger("Idle");
                 _aimAborted = true;
                 KeepAiming = false;
             }

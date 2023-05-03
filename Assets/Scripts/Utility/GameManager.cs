@@ -49,9 +49,12 @@ namespace Utilities
             SwitchState(GameState.MainMenu);
             Application.targetFrameRate = 60;
             SceneManager.sceneLoaded += OnSceneLoaded;
-            _introImage = GameObject.FindGameObjectWithTag("Intro").GetComponentInChildren<Image>();
-            _introCanvas = GameObject.FindGameObjectWithTag("Intro").GetComponent<Canvas>();
-            _introCanvas.enabled = false;
+            _introImage = GameObject.FindGameObjectWithTag("Intro")?.GetComponentInChildren<Image>();
+            _introCanvas = GameObject.FindGameObjectWithTag("Intro")?.GetComponent<Canvas>();
+            if (_introCanvas != null)
+            {
+                _introCanvas.enabled = false;
+            }
         }
 
         internal void SwitchState(GameState state)

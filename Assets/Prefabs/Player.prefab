@@ -257,21 +257,21 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   _maxFallSpeed: 30
+  _maxFastFallSpeed: 45
   _fallGravityMultiplier: 5
-  _fastFallGravityMultiplier: 8
-  _maxFastFallSpeed: 15
-  _runMaxSpeed: 15
-  _runAccelerationSpeed: 3
-  _runDeccelerationSpeed: 1
+  _fastFallGravityMultiplier: 10
+  _jumpCutGravityMultiplier: 5
+  _jumpApexGravityMultiplier: 5
+  _runMaxSpeed: 30
+  _runAccelerationSpeed: 2
+  _runDeccelerationSpeed: 3
   _accelarationInAir: 1
   _deccelerationInAir: 1
   _jumpHeight: 20
-  _jumpTimeToApex: 1
-  _jumpCutGravityMultiplier: 5
-  _jumpHangGravityMultiplier: 0.4
-  _jumpHangTimeThreshold: 0.1
-  _jumpHangAccelerationMultiplier: 1
-  _jumpHangMaxSpeedMultiplier: 1
+  _jumpTimeToApex: 0.8
+  _jumpApexDefiningThreshold: 0.05
+  _jumpApexAccelerationMultiplier: 0.8
+  _jumpApexMaxSpeedMultiplier: 0.8
   _coyoteTime: 0.15
   _jumpInputBufferTime: 0.1
 --- !u!50 &7709678318381928349
